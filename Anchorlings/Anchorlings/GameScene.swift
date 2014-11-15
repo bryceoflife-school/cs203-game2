@@ -33,6 +33,14 @@ class GameScene: SKScene {
         setupBackgroundMountains()
         setupSmallCloud()
         setupBigCloud()
+        setupSlowTimeIndicator()
+        self.childNodeWithName("slowTimeIndicator")?.alpha = 0.3
+        setupGrowIndicator()
+        self.childNodeWithName("growIndicator")?.alpha = 0.3
+        setupParachuteIndicator()
+        self.childNodeWithName("parachuteIndicator")?.alpha = 0.3
+        
+        
         
     }
     
@@ -93,19 +101,39 @@ class GameScene: SKScene {
         bigCloud.anchorPoint = CGPointMake(0, 0)
         bigCloud.position = CGPointMake(self.frame.width/1.95, self.frame.height / 3.5)
         bigCloud.size = CGSizeMake(bigCloud.frame.width/1.6, bigCloud.frame.height/1.6)
-        bigCloud.zPosition = -15
+        bigCloud.zPosition = -16
         bigCloud.physicsBody?.dynamic = false
         self.addChild(bigCloud)
     }
     
     func setupSlowTimeIndicator(){
-        bigCloud = SKSpriteNode(imageNamed: "cloudBig")
-        bigCloud.anchorPoint = CGPointMake(0, 0)
-        bigCloud.position = CGPointMake(self.frame.width/1.95, self.frame.height / 3.5)
-        bigCloud.size = CGSizeMake(bigCloud.frame.width/1.6, bigCloud.frame.height/1.6)
-        bigCloud.zPosition = -15
-        bigCloud.physicsBody?.dynamic = false
-        self.addChild(bigCloud)
+        slowTimeIndicator = SKSpriteNode(imageNamed: "anchorPowerupTime")
+        slowTimeIndicator.anchorPoint = CGPointMake(0, 0)
+        slowTimeIndicator.position = CGPointMake(self.frame.width/3.3, self.frame.height / 5)
+        slowTimeIndicator.size = CGSizeMake(slowTimeIndicator.frame.width / 2, slowTimeIndicator.frame.height / 2 )
+        slowTimeIndicator.zPosition = -3
+        slowTimeIndicator.name = "slowTimeIndicator"
+        self.addChild(slowTimeIndicator)
+    }
+    
+    func setupGrowIndicator(){
+        growIndicator = SKSpriteNode(imageNamed: "anchorPowerupGrow")
+        growIndicator.anchorPoint = CGPointMake(0, 0)
+        growIndicator.position = CGPointMake(self.frame.width/3.3, self.frame.height / 8)
+        growIndicator.size = CGSizeMake(growIndicator.frame.width / 2, growIndicator.frame.height / 2 )
+        growIndicator.zPosition = -5
+        growIndicator.name = "growIndicator"
+        self.addChild(growIndicator)
+    }
+    
+    func setupParachuteIndicator(){
+        parachuteIndicator = SKSpriteNode(imageNamed: "anchorPowerupParachute")
+        parachuteIndicator.anchorPoint = CGPointMake(0, 0)
+        parachuteIndicator.position = CGPointMake(self.frame.width/3.3, self.frame.height / 20)
+        parachuteIndicator.size = CGSizeMake(parachuteIndicator.frame.width / 2, parachuteIndicator.frame.height / 2 )
+        parachuteIndicator.zPosition = -5
+        parachuteIndicator.name = "parachuteIndicator"
+        self.addChild(parachuteIndicator)
     }
 
 
