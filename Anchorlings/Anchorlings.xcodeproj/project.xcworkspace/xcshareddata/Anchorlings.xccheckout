@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4FF51EC2-4B3B-4036-B83A-5B801369B8AD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Anchorlings</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0EAC812A067FE83BC278A69F8BD868C0C7A0C6DE</key>
+		<string>https://github.com/bryceoflife/cs203-game2.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Anchorlings/Anchorlings.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0EAC812A067FE83BC278A69F8BD868C0C7A0C6DE</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/bryceoflife/cs203-game2.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0EAC812A067FE83BC278A69F8BD868C0C7A0C6DE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0EAC812A067FE83BC278A69F8BD868C0C7A0C6DE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>cs203-game2</string>
+		</dict>
+	</array>
+</dict>
+</plist>
