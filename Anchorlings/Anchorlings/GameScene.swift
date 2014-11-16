@@ -18,9 +18,14 @@ var bigCloud:SKSpriteNode!
 var slowTimeIndicator: SKSpriteNode!
 var growIndicator: SKSpriteNode!
 var parachuteIndicator: SKSpriteNode!
+var anchorNormal: SKSpriteNode!
+var anchorSet: SKNode!
 
 // Game State Variables
 var gravityValue: CGFloat = 1.5
+
+// Random Variable
+var columnMultiplier: CGFloat!
 
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
@@ -40,6 +45,10 @@ class GameScene: SKScene {
         setupParachuteIndicator()
         self.childNodeWithName("parachuteIndicator")?.alpha = 0.3
         
+        anchorSet = SKNode()
+        self.addChild(anchorSet)
+        
+        spawnAnchorNormals()
         
         
     }
@@ -136,6 +145,37 @@ class GameScene: SKScene {
         self.addChild(parachuteIndicator)
     }
 
+    func randomY(height: CGFloat) -> CGFloat {
+        return CGFloat(arc4random()) % CGFloat(height / 1)
+    }
+    
+    func setupAnchor(){
+        anchorNormal = SKSpriteNode(imageNamed: "anchorNormal")
+        
+        do {
+            columnMultiplier = (CGFloat(arc4random_uniform(100))) / 100
+        } while(columnMultiplier <= 0.3 || columnMultiplier >= 0.7)
+        anchorNormal.size = CGSizeMake(columnMultiplier * anchorNormal.frame.width / 2, columnMultiplier *  anchorNormal.frame.height / 2)
+        
+        anchorNormal.position = CGPointMake((columnMultiplier * self.frame.width), (randomY(self.frame.size.height)))
+        anchorNormal.physicsBody = SKPhysicsBody(circleOfRadius: anchorNormal.frame.height/2)
+        anchorNormal.physicsBody?.dynamic = false
+        
+        anchorNormal.name = "anchorNormal"
+        anchorSet.addChild(anchorNormal)
+    }
+    
+    func spawnAnchorNormals(){
+        let spawn = SKAction.runBlock { () -> Void in
+            self.setupAnchor()
+        }
+        let delay = SKAction.waitForDuration(2.0)
+        let spawnThenDelay = SKAction.sequence([spawn, delay])
+        let spawnThenDelayForever = SKAction.repeatActionForever(spawnThenDelay)
+        self.runAction(spawnThenDelayForever)
+
+
+    }
 
     
     
