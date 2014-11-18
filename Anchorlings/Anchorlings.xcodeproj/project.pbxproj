@@ -30,6 +30,12 @@
 		C80576CA1A17F13800171B3B /* cloudBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C80576BB1A17F13800171B3B /* cloudBig@2x.png */; };
 		C80576CB1A17F13800171B3B /* cloudSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C80576BC1A17F13800171B3B /* cloudSmall@2x.png */; };
 		C80576CC1A17F13800171B3B /* foregroundHills@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C80576BD1A17F13800171B3B /* foregroundHills@2x.png */; };
+		C811736D1A1AD4880025790D /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81173681A1AD4880025790D /* BlurView.swift */; };
+		C811736E1A1AD4880025790D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81173691A1AD4880025790D /* Data.swift */; };
+		C811736F1A1AD4880025790D /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C811736A1A1AD4880025790D /* DesignableView.swift */; };
+		C81173701A1AD4880025790D /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = C811736B1A1AD4880025790D /* Misc.swift */; };
+		C81173711A1AD4880025790D /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C811736C1A1AD4880025790D /* SpringAnimation.swift */; };
+		C81173731A1ADFF30025790D /* SpriteKit+Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81173721A1ADFF30025790D /* SpriteKit+Spring.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +76,12 @@
 		C80576BB1A17F13800171B3B /* cloudBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloudBig@2x.png"; sourceTree = "<group>"; };
 		C80576BC1A17F13800171B3B /* cloudSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloudSmall@2x.png"; sourceTree = "<group>"; };
 		C80576BD1A17F13800171B3B /* foregroundHills@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "foregroundHills@2x.png"; sourceTree = "<group>"; };
+		C81173681A1AD4880025790D /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		C81173691A1AD4880025790D /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		C811736A1A1AD4880025790D /* DesignableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
+		C811736B1A1AD4880025790D /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
+		C811736C1A1AD4880025790D /* SpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimation.swift; sourceTree = "<group>"; };
+		C81173721A1ADFF30025790D /* SpriteKit+Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SpriteKit+Spring.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,10 +123,12 @@
 		C80576881A17E4A000171B3B /* Anchorlings */ = {
 			isa = PBXGroup;
 			children = (
+				C81173671A1AD4880025790D /* Spring */,
 				C805768B1A17E4A000171B3B /* AppDelegate.swift */,
 				C805768D1A17E4A000171B3B /* GameScene.sks */,
 				C805768F1A17E4A000171B3B /* GameScene.swift */,
 				C80576911A17E4A000171B3B /* GameViewController.swift */,
+				C81173721A1ADFF30025790D /* SpriteKit+Spring.swift */,
 				C80576931A17E4A000171B3B /* Main.storyboard */,
 				C80576961A17E4A000171B3B /* Images.xcassets */,
 				C80576981A17E4A000171B3B /* LaunchScreen.xib */,
@@ -161,6 +175,18 @@
 				C80576A41A17E4A000171B3B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C81173671A1AD4880025790D /* Spring */ = {
+			isa = PBXGroup;
+			children = (
+				C81173681A1AD4880025790D /* BlurView.swift */,
+				C81173691A1AD4880025790D /* Data.swift */,
+				C811736A1A1AD4880025790D /* DesignableView.swift */,
+				C811736B1A1AD4880025790D /* Misc.swift */,
+				C811736C1A1AD4880025790D /* SpringAnimation.swift */,
+			);
+			path = Spring;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +307,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C80576901A17E4A000171B3B /* GameScene.swift in Sources */,
+				C811736E1A1AD4880025790D /* Data.swift in Sources */,
+				C811736F1A1AD4880025790D /* DesignableView.swift in Sources */,
+				C81173711A1AD4880025790D /* SpringAnimation.swift in Sources */,
+				C811736D1A1AD4880025790D /* BlurView.swift in Sources */,
+				C81173701A1AD4880025790D /* Misc.swift in Sources */,
+				C81173731A1ADFF30025790D /* SpriteKit+Spring.swift in Sources */,
 				C80576921A17E4A000171B3B /* GameViewController.swift in Sources */,
 				C805768C1A17E4A000171B3B /* AppDelegate.swift in Sources */,
 			);
@@ -476,6 +508,7 @@
 				C80576AB1A17E4A000171B3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C80576AC1A17E4A000171B3B /* Build configuration list for PBXNativeTarget "AnchorlingsTests" */ = {
 			isa = XCConfigurationList;
@@ -484,6 +517,7 @@
 				C80576AE1A17E4A000171B3B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

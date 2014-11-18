@@ -6,6 +6,21 @@
 //  Copyright (c) 2014 Bryce Daniel. All rights reserved.
 //
 
+/*
+Todo:
+Random anchor generation upon player advancement.
+Spring joint for character arms
+Snap to anchor for character arms
+Draggable character
+anchors move ranodmly within vacinity
+parachute activates when player's y begins decreasing /// Find meaning for parachute or make new powerup
+visual state change for slow motion
+points increase with player height / anchor 
+replay screen
+
+
+*/
+
 import SpriteKit
 import UIKit
 import Foundation
@@ -26,6 +41,9 @@ var gravityValue: CGFloat = 1.5
 
 // Random Variable
 var columnMultiplier: CGFloat!
+var rowMultiplier: CGFloat!
+var sizeMultiplier: CGFloat!
+
 
 class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
@@ -48,7 +66,8 @@ class GameScene: SKScene {
         anchorSet = SKNode()
         self.addChild(anchorSet)
         
-        spawnAnchorNormals()
+//        spawnAnchorNormals()
+        
         
         
     }
@@ -155,14 +174,32 @@ class GameScene: SKScene {
         do {
             columnMultiplier = (CGFloat(arc4random_uniform(100))) / 100
         } while(columnMultiplier <= 0.3 || columnMultiplier >= 0.7)
-        anchorNormal.size = CGSizeMake(columnMultiplier * anchorNormal.frame.width / 2, columnMultiplier *  anchorNormal.frame.height / 2)
         
-        anchorNormal.position = CGPointMake((columnMultiplier * self.frame.width), (randomY(self.frame.size.height)))
+        do {
+            rowMultiplier = (CGFloat(arc4random_uniform(100))) / 100
+        } while(rowMultiplier <= 0.5 || rowMultiplier >= 0.9)
+        
+        do {
+            sizeMultiplier = (CGFloat(arc4random_uniform(100))) / 100
+        } while(sizeMultiplier <= 0.5 || sizeMultiplier >= 1.0)
+        
+        anchorNormal.size = CGSizeMake(sizeMultiplier * anchorNormal.frame.width / 2, sizeMultiplier *  anchorNormal.frame.height / 2)
+        
+        anchorNormal.position = CGPointMake((columnMultiplier * self.frame.width), (rowMultiplier * self.frame.size.height))
         anchorNormal.physicsBody = SKPhysicsBody(circleOfRadius: anchorNormal.frame.height/2)
         anchorNormal.physicsBody?.dynamic = false
         
         anchorNormal.name = "anchorNormal"
         anchorSet.addChild(anchorNormal)
+        anchorNormal.alpha = 0
+        let scale0 = SKAction.scaleTo(0, duration: 0)
+        anchorNormal.runAction(scale0)
+        let fadeIn = SKAction.fadeAlphaTo(1.0, duration: 0.2)
+        let scaleIn = SKAction.scaleTo(1.0, duration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0)
+        let fadeAndScale = SKAction.group([fadeIn,scaleIn])
+        anchorNormal.runAction(fadeAndScale)
+        
+
     }
     
     func spawnAnchorNormals(){
@@ -173,6 +210,8 @@ class GameScene: SKScene {
         let spawnThenDelay = SKAction.sequence([spawn, delay])
         let spawnThenDelayForever = SKAction.repeatActionForever(spawnThenDelay)
         self.runAction(spawnThenDelayForever)
+        
+        
 
 
     }
@@ -184,6 +223,8 @@ class GameScene: SKScene {
         /* Called when a touch begins */
         
         for touch: AnyObject in touches {
+            let location = touch.locationInNode(self) as CGPoint
+            setupAnchor()
         }
     }
    
