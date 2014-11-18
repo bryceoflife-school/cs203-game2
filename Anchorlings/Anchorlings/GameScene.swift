@@ -34,7 +34,9 @@ var slowTimeIndicator: SKSpriteNode!
 var growIndicator: SKSpriteNode!
 var parachuteIndicator: SKSpriteNode!
 var anchorNormal: SKSpriteNode!
+var anchorInitial: SKSpriteNode!
 var anchorSet: SKNode!
+
 
 // Game State Variables
 var gravityValue: CGFloat = 1.5
@@ -65,6 +67,8 @@ class GameScene: SKScene {
         
         anchorSet = SKNode()
         self.addChild(anchorSet)
+        
+        setupInitialAnchor()
         
 //        spawnAnchorNormals()
         
@@ -168,6 +172,18 @@ class GameScene: SKScene {
         return CGFloat(arc4random()) % CGFloat(height / 1)
     }
     
+    func setupInitialAnchor(){
+        anchorInitial = SKSpriteNode(imageNamed: "anchorNormal")
+        anchorInitial.size = CGSizeMake(anchorInitial.frame.width / 2, anchorInitial.frame.height / 2)
+        
+        anchorInitial.position = CGPointMake((self.frame.width / 2),( self.frame.size.height / 5))
+        anchorInitial.physicsBody = SKPhysicsBody(circleOfRadius: anchorInitial.frame.height/2)
+        anchorInitial.physicsBody?.dynamic = false
+        
+        anchorInitial.name = "anchorInitial"
+        self.addChild(anchorInitial)
+    }
+    
     func setupAnchor(){
         anchorNormal = SKSpriteNode(imageNamed: "anchorNormal")
         
@@ -200,6 +216,10 @@ class GameScene: SKScene {
         anchorNormal.runAction(fadeAndScale)
         
 
+    }
+    
+    func setupAnchorling(){
+        
     }
     
     func spawnAnchorNormals(){
