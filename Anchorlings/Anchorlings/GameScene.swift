@@ -15,7 +15,7 @@ Draggable character
 anchors move ranodmly within vacinity
 parachute activates when player's y begins decreasing /// Find meaning for parachute or make new powerup
 visual state change for slow motion
-points increase with player height / anchor 
+points increase with player height / anchor
 replay screen
 
 
@@ -80,7 +80,8 @@ class GameScene: SKScene {
         setupInitialAnchor()
         setupAnchorling()
         
-//        spawnAnchorNormals()
+        
+        //        spawnAnchorNormals()
         
         
         
@@ -106,9 +107,9 @@ class GameScene: SKScene {
         foreground.physicsBody = SKPhysicsBody(texture: foregroundTexture, size: foreground.size)
         foreground.physicsBody?.dynamic = false
         
-//        foreground.physicsBody?.categoryBitMask = worldCategory
-//        foreground.physicsBody?.contactTestBitMask = blockCategory
-//        foreground.physicsBody?.collisionBitMask = blockCategory
+        //        foreground.physicsBody?.categoryBitMask = worldCategory
+        //        foreground.physicsBody?.contactTestBitMask = blockCategory
+        //        foreground.physicsBody?.collisionBitMask = blockCategory
         
         self.addChild(foreground)
     }
@@ -119,9 +120,9 @@ class GameScene: SKScene {
         backgroundMountains.position = CGPointMake(self.frame.width / 2, 34)
         backgroundMountains.size = CGSizeMake(self.frame.width/2.3, backgroundMountains.frame.height/1.6)
         backgroundMountains.zPosition = -20
-//        backgroundMountainsTexture = SKTexture(imageNamed: "backgroundMountains")
-//        backgroundMountains.physicsBody = SKPhysicsBody(texture: backgroundMountainsTexture, size: backgroundMountains.size)
-//        backgroundMountains.physicsBody?.dynamic = false
+        //        backgroundMountainsTexture = SKTexture(imageNamed: "backgroundMountains")
+        //        backgroundMountains.physicsBody = SKPhysicsBody(texture: backgroundMountainsTexture, size: backgroundMountains.size)
+        //        backgroundMountains.physicsBody?.dynamic = false
         
         //        backgroundMountains?.categoryBitMask = worldCategory
         //        backgroundMountains?.contactTestBitMask = blockCategory
@@ -179,7 +180,7 @@ class GameScene: SKScene {
         parachuteIndicator.name = "parachuteIndicator"
         self.addChild(parachuteIndicator)
     }
-
+    
     func randomY(height: CGFloat) -> CGFloat {
         return CGFloat(arc4random()) % CGFloat(height / 1)
     }
@@ -188,6 +189,7 @@ class GameScene: SKScene {
         anchorling = SKSpriteNode(imageNamed: "anchorlingBody")
         anchorlingArmL = SKSpriteNode(imageNamed: "anchorlingArmL")
         anchorlingArmR = SKSpriteNode(imageNamed: "anchorlingArmR")
+        anchorling.name = "anchorling"
         
         anchorling.position = CGPointMake((self.frame.width / 2), (self.frame.height / 2))
         anchorling.size = CGSizeMake(anchorling.frame.width / 2, anchorling.frame.height / 2)
@@ -207,22 +209,38 @@ class GameScene: SKScene {
         anchorling.physicsBody = SKPhysicsBody(texture: anchorlingTexture, size: anchorling.size)
         
         anchorlingArmL.physicsBody = SKPhysicsBody(texture: anchorlingArmLTexture, size: anchorlingArmL.size)
-    
+        
         anchorlingArmR.physicsBody = SKPhysicsBody(texture: anchorlingArmRTexture, size: anchorlingArmR.size)
-       
-        anchorlingArmR.physicsBody?.dynamic = false
+        
         
         // Add objects to world
         self.addChild(anchorling)
         self.addChild(anchorlingArmL)
         self.addChild(anchorlingArmR)
         
-        // Create Joint
-        var jointArmL = SKPhysicsJointPin.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmL.physicsBody, anchor: CGPoint(x: CGRectGetMinX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)))
-        var jointArmR = SKPhysicsJointPin.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmR.physicsBody, anchor: CGPoint(x: CGRectGetMaxX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)))
-//        var jointArmL = SKPhysicsJointLimit.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmL.physicsBody, anchorA: CGPoint(x: CGRectGetMaxX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)), anchorB: CGPointZero)
-        self.physicsWorld.addJoint(jointArmL)
-        self.physicsWorld.addJoint(jointArmR)
+        // Create Joints
+        
+        // Left Arm Spring Joint
+        var jointArmLS = SKPhysicsJointSpring.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmL.physicsBody, anchorA: CGPoint(x: CGRectGetMinX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)), anchorB: CGPoint(x: CGRectGetMinX(anchorlingArmL.frame), y: CGRectGetMidY(anchorlingArmL.frame)))
+        jointArmLS.frequency = 2.0
+        jointArmLS.damping = 0.2
+        self.physicsWorld.addJoint(jointArmLS)
+        
+        // Left Arm Limit Joint
+        var jointArmLL = SKPhysicsJointLimit.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmL.physicsBody, anchorA: CGPoint(x: CGRectGetMinX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)), anchorB: CGPoint(x: CGRectGetMinX(anchorlingArmL.frame), y: CGRectGetMidY(anchorlingArmL.frame)))
+        jointArmLL.maxLength = 100.0
+        self.physicsWorld.addJoint(jointArmLL)
+        
+        // Right Arm Spring Joint
+        var jointArmRS = SKPhysicsJointSpring.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmR.physicsBody, anchorA: CGPoint(x: CGRectGetMaxX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)), anchorB: CGPoint(x: CGRectGetMinX(anchorlingArmR.frame), y: CGRectGetMidY(anchorlingArmR.frame)))
+        jointArmRS.frequency = 2.0
+        jointArmRS.damping = 0.2
+        self.physicsWorld.addJoint(jointArmRS)
+        
+        // Right Arm Limit Joint
+        var jointArmRL = SKPhysicsJointLimit.jointWithBodyA(anchorling.physicsBody, bodyB: anchorlingArmR.physicsBody, anchorA: CGPoint(x: CGRectGetMaxX(anchorling.frame), y: CGRectGetMidY(anchorling.frame)), anchorB: CGPoint(x: CGRectGetMinX(anchorlingArmR.frame), y: CGRectGetMidY(anchorlingArmR.frame)))
+        jointArmRL.maxLength = 50
+        self.physicsWorld.addJoint(jointArmRL)
     }
     
     func attachLeftArm() {
@@ -233,9 +251,9 @@ class GameScene: SKScene {
         anchorInitial = SKSpriteNode(imageNamed: "anchorNormal")
         anchorInitial.size = CGSizeMake(anchorInitial.frame.width / 2, anchorInitial.frame.height / 2)
         
-        anchorInitial.position = CGPointMake((self.frame.width / 2),( self.frame.size.height / 5))
-        anchorInitial.physicsBody = SKPhysicsBody(circleOfRadius: anchorInitial.frame.height/2)
-        anchorInitial.physicsBody?.dynamic = false
+        anchorInitial.position = CGPointMake((self.frame.width / 2),( self.frame.size.height / 2))
+        //        anchorInitial.physicsBody = SKPhysicsBody(circleOfRadius: anchorInitial.frame.height/2)
+        //        anchorInitial.physicsBody?.dynamic = false
         
         anchorInitial.name = "anchorInitial"
         self.addChild(anchorInitial)
@@ -272,7 +290,7 @@ class GameScene: SKScene {
         let fadeAndScale = SKAction.group([fadeIn,scaleIn])
         anchorNormal.runAction(fadeAndScale)
         
-
+        
     }
     
     func random() -> CGFloat {
@@ -293,12 +311,24 @@ class GameScene: SKScene {
         let spawnThenDelay = SKAction.sequence([spawn, delay])
         let spawnThenDelayForever = SKAction.repeatActionForever(spawnThenDelay)
         self.runAction(spawnThenDelayForever)
-        
-        
-
-
     }
-
+    
+    func snapToAnchor(){
+        
+        let timeX = NSTimeInterval(abs(anchorInitial.position.x - anchorling.position.x) * 0.0009)
+        let timeY = NSTimeInterval(abs(anchorInitial.position.y - anchorling.position.y) * 0.0009)
+        
+        if ((anchorlingArmL.position.x > anchorInitial.frame.minX)
+            && (anchorlingArmL.position.x < anchorInitial.frame.maxX)
+            && (anchorlingArmL.position.y > anchorInitial.frame.minY)
+            && (anchorlingArmL.position.y < anchorInitial.frame.maxY)) {
+                
+                println("HERE WE GO")
+                anchorlingArmL.runAction(SKAction.moveToX(anchorInitial.position.x, duration: timeX, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0))
+                anchorlingArmL.runAction(SKAction.moveToY(anchorInitial.position.y, duration: timeY, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0))
+        }
+    }
+    
     
     
     
@@ -307,16 +337,67 @@ class GameScene: SKScene {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self) as CGPoint
-            setupAnchor()
-//            let time = NSTimeInterval(abs(location.x - anchorNormal.position.x) * 0.0009)
-//
-//            if (location.x != anchorNormal.position.x) {
-//                anchorNormal.runAction(SKAction.moveToX(location.x, duration: time))
-//            }
+            
+            var node: SKNode = self.nodeAtPoint(location)
+            
+            let timeX = NSTimeInterval(abs(location.x - anchorling.position.x) * 0.0009)
+            let timeY = NSTimeInterval(abs(location.y - anchorling.position.y) * 0.0009)
+            
+            if ((location.x != anchorling.position.x) || (location.y != anchorling.position.y)) {
+                anchorling.runAction(SKAction.moveToX(location.x, duration: timeX))
+                anchorling.runAction(SKAction.moveToY(location.y, duration: timeY))
+                
+            }
+            
+            if (node.name == "anchorling"){
+                anchorling.runAction(SKAction.moveToX(location.x, duration: timeX))
+                anchorling.runAction(SKAction.moveToY(location.y, duration: timeY))
+            }
+            
+            //            setupAnchor()
+            
         }
     }
-   
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self) as CGPoint
+            
+            var node: SKNode = self.nodeAtPoint(location)
+            
+            let timeX = NSTimeInterval(abs(location.x - anchorling.position.x) * 0.0009)
+            let timeY = NSTimeInterval(abs(location.y - anchorling.position.y) * 0.0009)
+            
+            
+            if ((location.x != anchorling.position.x) || (location.y != anchorling.position.y)) {
+                anchorling.runAction(SKAction.moveToX(location.x, duration: timeX))
+                anchorling.runAction(SKAction.moveToY(location.y, duration: timeY))
+            }
+            if (node.name == "anchorling"){
+                anchorling.runAction(SKAction.moveToX(location.x, duration: timeX))
+                anchorling.runAction(SKAction.moveToY(location.y, duration: timeY))
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self) as CGPoint
+            
+            var node: SKNode = self.nodeAtPoint(location)
+            let timeX = NSTimeInterval(abs(location.x - anchorling.position.x) * 0.0009)
+            let timeY = NSTimeInterval(abs(location.y - anchorling.position.y) * 0.0009)
+            if (node.name == "anchorling"){
+                anchorling.runAction(SKAction.moveToX(location.x, duration: timeX))
+                anchorling.runAction(SKAction.moveToY(location.y, duration: timeY))
+            } else {
+                anchorling.removeAllActions()
+            }
+        }
+    }
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        snapToAnchor()
+        
     }
 }
